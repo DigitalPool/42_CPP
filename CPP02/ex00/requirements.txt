@@ -1,0 +1,97 @@
+A **copy assignment operator** is a special function in C++ that defines **what happens when one object is assigned to another object of the same class** using the `=` operator. It’s typically written as:
+
+```cpp
+ClassName& operator=(const ClassName& other) {
+    // copy data from 'other' into 'this' object
+    return *this;
+}
+```
+
+### 1. The Signature
+- **`ClassName& operator=(const ClassName& other)`**:
+  - Returns a reference to the current object (usually `*this`) to allow chaining of assignments (e.g., `a = b = c;`).
+  - Takes a **const reference** to another object of the same `ClassName`.
+
+### 2. What It’s Used For
+- To **copy the contents** (fields or resources) of `other` into the current instance (`this`).
+- Ensures that **both objects** have the correct, consistent state **after** the assignment.
+- Needed in cases where you want **custom copy semantics** (e.g., deep copying resources like dynamic memory, file handles, etc.).
+
+### 3. Default Behavior
+- If you **don’t** provide your own copy assignment operator, the compiler **generates one** automatically (the so-called **default** version) if it’s needed. This default simply **copies** each non-static member **by value**.
+- That works fine if your class only contains simple types (like `int`, `double`, `std::string`).
+- If you manage a **resource** that can’t simply be copied by value (like a raw `new`ed pointer, for instance), you’d usually **override** the default version to **do a deep copy** or some specialized logic.
+
+### 4. Typical Example
+
+```cpp
+#include <iostream>
+
+class Example {
+private:
+    int* data;  // pointer to dynamically allocated integer
+
+public:
+    // Constructor
+    Example(int value) {
+        data = new int(value);
+    }
+
+    // Copy constructor
+    Example(const Example& other) {
+        data = new int(*other.data);
+    }
+
+    // Copy assignment operator
+    Example& operator=(const Example& other) {
+        if (this != &other) {
+            // 1. free current resource
+            delete data;
+            // 2. allocate new resource and copy data
+            data = new int(*other.data);
+        }
+        return *this;
+    }
+
+    // Destructor
+    ~Example() {
+        delete data; // clean up
+    }
+
+    int getValue() const {
+        return *data;
+    }
+};
+
+int main() {
+    Example e1(42);
+    Example e2(100);
+
+    e2 = e1;  // calls e2.operator=(e1);
+    std::cout << e2.getValue() << std::endl; // prints 42
+    return 0;
+}
+```
+
+#### Explanation
+1. **`Example e1(42);`** creates an `Example` where `data` points to a heap-allocated `int` storing `42`.
+2. **`Example e2(100);`** similarly stores `100`.
+3. **`e2 = e1;`** calls `Example& Example::operator=(const Example& other)`.
+   - We check if `this != &other` to avoid self-assignment issues.
+   - We delete `data` in the old object (to prevent a memory leak).
+   - We allocate a new integer on the heap and copy the value from `other.data`.
+4. Return `*this` allows chaining and denotes that the assignment is done.
+
+That’s it! The copy assignment operator is your **blueprint** for how to **transfer** (or “copy”) data from one object to another **after** they’ve both been constructed.
+
+
+Final Thoughts
+Orthodox Canonical Form means you provide:
+
+Default constructor
+Copy constructor
+Copy assignment operator
+Destructor
+The key is that each constructor/operator does what its name implies: the copy constructor copies another object’s data during construction, and the copy assignment operator does so when you do obj1 = obj2;.
+
+For this “Fixed” class, you only have one data member to copy (fp_nbr) and one static constant (frac_bit). If you expand the class to do more complex tasks, this pattern remains the same—always be sure to copy any necessary internal data.

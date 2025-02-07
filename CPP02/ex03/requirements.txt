@@ -1,0 +1,251 @@
+Below is a **big-picture explanation** of **Exercise 03: BSP (Binary Space Partitioning)** from **C++ Module 02**. The goal is to leverage your new **`Fixed`** class in a 2D geometry problem.
+
+---
+
+## 1. Overview
+
+### 1.1. The Task
+
+1. **Create a `Point` class** that represents a 2D point \((x, y)\), where each coordinate is a **`Fixed`**.
+   - Must follow **Orthodox Canonical Form**:
+     - Default constructor, copy constructor, copy assignment operator, destructor, etc.
+   - You’ll store each coordinate (`x` and `y`) as a **constant** `Fixed` to avoid changing them after construction.
+
+2. **Implement a function**:
+   ```cpp
+   bool bsp(Point const a, Point const b, Point const c, Point const point);
+   ```
+   - **`a, b, c`**: the 3 vertices of a triangle.
+   - **`point`**: the point you want to test.
+   - **Returns**:
+     - **`true`** if `point` is **strictly inside** the triangle.
+     - **`false`** if `point` is **outside**, **on an edge**, or **exactly on a vertex**.
+
+Essentially, you’re building a small geometry tool that can answer: **“Is this point inside that triangle?”**
+
+### 1.2. Why Use `Fixed`?
+
+All earlier exercises built up a `Fixed` class for storing fractional numbers. This is a chance to see it in action with something more interesting than just printing or arithmetic.
+
+---
+
+## 2. The `Point` Class
+
+### 2.1. Requirements
+
+- **Private Members**:
+  - `Fixed const x;`
+  - `Fixed const y;`
+  - (Optionally more, but typically just two coordinates.)
+
+- **Public Members**:
+  1. **Default constructor**: sets `x` and `y` to `0` (i.e., a point at the origin).
+  2. **Parameterized constructor**: takes two `float`s (or `double`s), e.g. `(float px, float py)`, and initializes `x(px)` and `y(py)` via `Fixed(px)` etc.
+  3. **Copy constructor**: `Point(const Point &other)`.
+  4. **Copy assignment**: `Point &operator=(const Point &other)`.
+  5. **Destructor**.
+  6. Possibly a couple of **getter** functions if you need to read the coordinates from outside.
+
+Because `x` and `y` are **`Fixed const`**, you can’t reassign them after the object is constructed. If you do attempt to implement `operator=`, you’ll see you can’t reassign those constants. (One typical solution: the assignment operator might do nothing, or the class might store non-const but treat them as logically constant.)
+
+### 2.2. Example Implementation Sketch
+
+**Point.hpp**:
+```cpp
+#ifndef POINT_HPP
+#define POINT_HPP
+
+#include "Fixed.hpp"
+
+class Point {
+private:
+    Fixed const x;
+    Fixed const y;
+
+public:
+    Point();                      // default constructor
+    Point(const float px, const float py);
+    Point(const Point &other);    // copy constructor
+    Point &operator=(const Point &other); // copy assignment
+    ~Point();
+
+    Fixed getX() const;
+    Fixed getY() const;
+};
+
+#endif
+```
+
+**Point.cpp**:
+```cpp
+#include "Point.hpp"
+
+// Default constructor
+Point::Point() : x(0), y(0) {
+}
+
+// Parameterized constructor
+Point::Point(const float px, const float py) : x(px), y(py) {
+}
+
+// Copy constructor
+Point::Point(const Point &other) : x(other.x), y(other.y) {
+}
+
+// Copy assignment operator
+Point &Point::operator=(const Point &other) {
+    // x and y are const, so we technically cannot reassign them here
+    // Could do something like (void)other; to silence warnings
+    return *this;
+}
+
+// Destructor
+Point::~Point() {
+}
+
+// Getters
+Fixed Point::getX() const { return this->x; }
+Fixed Point::getY() const { return this->y; }
+```
+
+*(This is just one possible layout. Your 42 style and constructor messages may vary.)*
+
+---
+
+## 3. The `bsp` Function
+
+The signature given:
+
+```cpp
+bool bsp( Point const a, Point const b, Point const c, Point const point );
+```
+
+### 3.1. Goal
+
+Return **true** if and only if `point` is **strictly** inside the triangle formed by `a,b,c`. Return **false** if it’s **outside** or **exactly on** the edge (including corners).
+
+### 3.2. Classic Approach: **Area Comparison**
+
+One well-known method:
+
+1. Compute **area** of the big triangle `ABC`.
+2. Compute **area** of the sub-triangles `PAB`, `PBC`, `PCA`.
+3. If `area(ABC) == area(PAB) + area(PBC) + area(PCA)` → `P` is inside or on edges.
+4. If any sub-area is 0, that means the point is on an edge, so return **false**.
+5. Otherwise, if the sums match, return **true**; if not, return **false**.
+
+You can do the area in 2D via the **cross product** trick:
+
+\[
+\text{Area}(AB) = \Bigl| x_Ay_B - x_By_A \Bigr| / 2
+\]
+and so forth for triangles. With your `Fixed` type, you can do the multiplications, subtractions, etc., carefully.
+
+**Pseudo-code**:
+
+```cpp
+Fixed areaABC = area(a, b, c);
+Fixed areaPAB = area(point, a, b);
+Fixed areaPBC = area(point, b, c);
+Fixed areaPCA = area(point, c, a);
+
+// if any of these sub-areas is 0 => on an edge => return false
+if (areaPAB == 0 || areaPBC == 0 || areaPCA == 0)
+    return false;
+
+// if sum of sub-areas equals areaABC => inside
+if (areaPAB + areaPBC + areaPCA == areaABC)
+    return true;
+else
+    return false;
+```
+
+Where `area(x, y, z)` is a function that returns the absolute value of the 2D cross product / 2. You can write something like:
+
+```cpp
+Fixed area(Point const &p1, Point const &p2, Point const &p3) {
+    Fixed x1 = p2.getX() - p1.getX();
+    Fixed y1 = p2.getY() - p1.getY();
+    Fixed x2 = p3.getX() - p1.getX();
+    Fixed y2 = p3.getY() - p1.getY();
+    Fixed cross = (x1 * y2) - (y1 * x2);
+    if (cross < 0)
+        cross = cross * Fixed(-1); // or use a custom abs
+    return cross / Fixed(2);
+}
+```
+
+*(Implementation details vary—just ensure you handle `Fixed` properly.)*
+
+### 3.3. Alternative Methods
+
+- **Barycentric coordinates**: Similar logic but uses a different formula.
+- **Ray-casting**: Not recommended for a simple triangle check, but still an option.
+
+---
+
+## 4. Edge Handling: “On Vertex” or “On Edge” = False
+
+The problem statement specifically says:
+> “Thus, if the point is a vertex or on an edge, it will return **false**.”
+
+That means:
+- If the computed sub-area is `0` (like `PAB` has area = 0), that implies `point, a, b` are collinear. In the area approach, that means `point` is on the line `AB`, so we return **false**.
+
+---
+
+## 5. Common Pitfalls
+
+1. **Forgetting to Check Edge Cases**: If you only compare `areaABC == areaPAB + areaPBC + areaPCA`, you might get `true` even if `point` is on an edge. So you must check each sub-area for being non-zero.
+2. **Floating-Point vs. Fixed**: You’re using your `Fixed` class. Make sure to handle `*`, `-`, and `==` carefully.
+3. **Operator Overflows**: If your `Fixed` is 32-bit under the hood and you do big multiplications, watch out. Typically, it’s fine for small coordinates.
+4. **Exact Equality** with floating numbers can be tricky. But since this is a short project, you can rely on `Fixed`’s direct `==` operator.
+
+---
+
+## 6. Testing
+
+You’ll want to create your own **`main.cpp`** with tests, for instance:
+
+1. **A triangle**: `(0,0), (10,0), (0,10)`
+2. **Check** points:
+   - `(1,1)` → inside
+   - `(0,0)` → vertex → false
+   - `(5,5)` → inside or outside? Actually on the line if your triangle is right-angled.
+   - `(10,10)` → outside, etc.
+
+Print out something like:
+```cpp
+std::cout << "Point p(1,1) => "
+          << (bsp(a, b, c, p) ? "inside" : "outside") << std::endl;
+```
+
+---
+
+## 7. “BSP stands for Binary Space Partitioning”
+
+That’s just a playful remark from the PDF. We’re not fully implementing the typical “BSP tree” used in graphics. We’re just doing a basic point-in-triangle test. Don’t overthink that part.
+
+---
+
+## 8. You Can Skip It
+
+The PDF mentions:
+> “You can pass this module without doing exercise 03.”
+
+So if you’re pressed for time, you can skip. But it’s a fun geometry puzzle that **tests** your `Fixed` class with actual calculations.
+
+---
+
+### Final Recap
+
+- **Chapter VII, Exercise 03**:
+  - Create a `Point` class with **Fixed** coordinates.
+  - Implement the `bsp(a,b,c,point)` function to decide if `point` is strictly inside the triangle.
+  - If `point` is on an edge or vertex, return **false**.
+
+**Approach**:
+1. Use the **area** method (or barycentric).
+2. If total area = sum of sub-areas **and** no sub-area is zero, return `true`; else `false`.
+
+That’s the entire gist of **Exercise 03**—a neat way to see your `Fixed` class in a real math context!
