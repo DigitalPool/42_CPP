@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 21:19:44 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 21:50:00 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:09:16 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ class WrongCat : public WrongAnimal {
 public:
 	WrongCat();
 	WrongCat(const WrongCat &other);
-	WrongCat &operator=(const WrongCat &other);
 	~WrongCat();
+	WrongCat &operator=(const WrongCat &other);
 
 	void makeSound() const;
 };

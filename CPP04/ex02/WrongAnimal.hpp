@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 21:17:39 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 21:49:46 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:08:28 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@
 #include <string>
 
 class WrongAnimal {
-protected:
-	std::string type;
+	protected:
+		std::string type;
 
-public:
-	WrongAnimal();
-	WrongAnimal(const WrongAnimal &other);
-	WrongAnimal &operator=(const WrongAnimal &other);
-	~WrongAnimal();
+	public:
+		WrongAnimal();
+		WrongAnimal(const WrongAnimal &other);
+		~WrongAnimal();
+		WrongAnimal &operator=(const WrongAnimal &other);
 
-	std::string getType() const;
-	void makeSound() const;
+
+		std::string getType() const;
+		void makeSound() const;
 };
 
 #endif

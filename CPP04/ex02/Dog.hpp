@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:50:43 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 22:27:48 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:51:09 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ class Dog : public Animal{
 	public:
 		Dog();
 		Dog(const Dog &other);
-		Dog &operator=(const Dog &other);
-
 		virtual ~Dog();
+
+		Dog &operator=(const Dog &other);
 
 		std::string getType() const;
 		virtual void makeSound() const;
+		void getIdeas() const;
+		void setIdeas(size_t idea_idx, std::string idea);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 21:17:39 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 21:49:46 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:09:25 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ protected:
 public:
 	WrongAnimal();
 	WrongAnimal(const WrongAnimal &other);
-	WrongAnimal &operator=(const WrongAnimal &other);
 	~WrongAnimal();
+	WrongAnimal &operator=(const WrongAnimal &other);
 
 	std::string getType() const;
 	void makeSound() const;
