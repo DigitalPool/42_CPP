@@ -6,13 +6,13 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:14:12 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 21:45:34 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:11:11 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
 
-Animal::Animal() : type("Animal"){
+Animal::Animal() : type("Default"){
 	std::cout <<  "Default constructor called for Animal" <<std::endl;
 }
 
@@ -25,16 +25,16 @@ Animal::Animal(const Animal &other){
 	*this = other;
 }
 
+Animal::~Animal(){
+	std::cout <<  "Default destructor called for Animal" <<std::endl;
+}
+
 Animal &Animal::operator=(const Animal &other){
 	std::cout <<  "copy assignment constructor called for Animal type" << this->type <<std::endl;
 	if (this != &other){
 		this->type = other.type;
 	}
 	return *this;
-}
-
-Animal::~Animal(){
-	std::cout <<  "Default destructor called for Animal" <<std::endl;
 }
 
 std::string Animal::getType() const{

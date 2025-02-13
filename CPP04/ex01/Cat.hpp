@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:50:43 by mac               #+#    #+#             */
-/*   Updated: 2025/02/06 22:26:58 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/13 08:51:13 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ class Cat : public Animal{
 		Cat();
 		Cat(std::string type);
 		Cat(const Cat &other);
-		Cat &operator=(const Cat &other);
-
 		virtual ~Cat();
+		Cat &operator=(const Cat &other);
 
 		std::string getType() const;
 		virtual void makeSound() const;
+		void getIdeas() const;
+		void setIdeas(size_t idea_idx, std::string idea);
 };
 
 #endif
