@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 09:46:02 by mac               #+#    #+#             */
-/*   Updated: 2025/02/26 14:36:22 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/27 08:49:06 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ Intern &Intern::operator=(Intern &src){
 	return *this;
 	std::cout << "Intern copy assignment operator called" << std::endl;
 }
-
-
 
 
 // Define a function pointer type for functions that create AForm objects

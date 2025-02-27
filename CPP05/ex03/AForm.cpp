@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:44:14 by mac               #+#    #+#             */
-/*   Updated: 2025/02/24 22:26:05 by mac              ###   ########.fr       */
+/*   Updated: 2025/02/27 09:39:25 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ AForm::AForm(std::string _name, bool _is_signed, const int _toSign_grade, const 
 	_name(_name), _is_signed(_is_signed), _toSign_grade(_toSign_grade), _toExecute_grade(_toExecute_grade) {
 
 	std::cout << "AForm default constructor called for " << _name <<
-					"with toSign_grade " << _toSign_grade << "and toExecute_grade " << _toExecute_grade << std::endl;
+					" with to Sign_grade " << _toSign_grade << " and to Execute_grade " << _toExecute_grade << std::endl;
 
 }
 
