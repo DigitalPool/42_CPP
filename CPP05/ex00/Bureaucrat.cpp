@@ -6,48 +6,11 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:48:37 by mac               #+#    #+#             */
-/*   Updated: 2025/02/24 20:24:08 by mac              ###   ########.fr       */
+/*   Updated: 2025/03/06 08:13:40 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-
-// class Bureaucrat{
-// 	private:
-// 		const std::string _name;
-// 		int _grade;
-
-// 	public:
-// 		Bureaucrat();
-// 		Bureaucrat(std::string &name, int grade);
-// 		Bureaucrat(const Bureaucrat &other);
-// 		~Bureaucrat();
-
-// 		Bureaucrat &operator<<( const Bureaucrat &other);
-
-// 		const std::string getName() const;
-// 		const int getGrade() const;
-// 		int setGrade(int grade);
-
-// 		void incrementGrade();
-// 		void decrementGrade();
-
-// 		class GradeTooHighException : public std::exception{
-// 			public:
-// 				const char* what() const throw() {
-// 					return "Grade is too high";
-// 			}
-// 		};
-
-// 		class GradeTooLowException : public std::exception{
-// 			public:
-// 				const char* what() const throw() {
-// 					return "Grade is too low";
-// 			}
-// 		};
-// };
-
-// std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat);
 
 Bureaucrat::Bureaucrat(){
 	std::cout << "Bureaucrat default constructor called" << std::endl;
