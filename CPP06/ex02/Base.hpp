@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 17:01:51 by mac               #+#    #+#             */
-/*   Updated: 2025/03/05 17:01:52 by mac              ###   ########.fr       */
+/*   Created: 2025/03/05 19:15:11 by mac               #+#    #+#             */
+/*   Updated: 2025/03/05 19:19:09 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BASE_HPP
+#define BASE_HPP
 
+class Base {
+public:
+	virtual ~Base() {}
+};
 
-#include "ScalarConverter.hpp"
-#include <iostream>
-
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <literal>" << std::endl;
-        return 1;
-    }
-    std::string literal = argv[1];
-    ScalarConverter::convert(literal);
-    return 0;
-}
+#endif

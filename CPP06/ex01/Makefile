@@ -1,7 +1,7 @@
 CC = c++
-NAME = scalarconverter
+NAME = serializer
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = ScalarConverter.cpp main.cpp
+SRC = Serializer.cpp main.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)

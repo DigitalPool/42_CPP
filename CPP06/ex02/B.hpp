@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   B.hpp                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 17:01:51 by mac               #+#    #+#             */
-/*   Updated: 2025/03/05 17:01:52 by mac              ###   ########.fr       */
+/*   Created: 2025/03/05 19:14:32 by mac               #+#    #+#             */
+/*   Updated: 2025/03/05 19:14:37 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef B_HPP
+#define B_HPP
 
+#include "Base.hpp"
 
-#include "ScalarConverter.hpp"
-#include <iostream>
+class B : public Base {
 
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <literal>" << std::endl;
-        return 1;
-    }
-    std::string literal = argv[1];
-    ScalarConverter::convert(literal);
-    return 0;
-}
+};
+
+#endif

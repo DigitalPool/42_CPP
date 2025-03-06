@@ -1,7 +1,7 @@
 CC = c++
-NAME = scalarconverter
+NAME = identify
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = ScalarConverter.cpp main.cpp
+SRC = main.cpp Identify.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)

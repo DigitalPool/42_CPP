@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Serializer.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 17:01:51 by mac               #+#    #+#             */
-/*   Updated: 2025/03/05 17:01:52 by mac              ###   ########.fr       */
+/*   Created: 2025/02/18 11:48:45 by mac               #+#    #+#             */
+/*   Updated: 2025/03/05 19:17:08 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef SERIALIZER_HPP
+#define SERIALIZER_HPP
+
+#include <stdint.h>
+#include <string>
+
+struct Data {
+	int    number;
+	std::string text;
+};
+
+class Serializer {
+private:
+	Serializer();
+	~Serializer();
+	Serializer(const Serializer&);
+	Serializer& operator=(const Serializer&);
+
+public:
+		static uintptr_t serialize(Data* ptr);
+		static Data* deserialize(uintptr_t raw);
+};
+
+#endif
 
 
-#include "ScalarConverter.hpp"
-#include <iostream>
 
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <literal>" << std::endl;
-        return 1;
-    }
-    std::string literal = argv[1];
-    ScalarConverter::convert(literal);
-    return 0;
-}
+
