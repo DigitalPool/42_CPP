@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:33:13 by mac               #+#    #+#             */
-/*   Updated: 2025/03/05 22:13:07 by mac              ###   ########.fr       */
+/*   Updated: 2025/03/06 09:55:41 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,28 @@
 
 class Span {
 private:
-    unsigned int _N;              // Maximum number of elements
-    std::vector<int> _numbers;    // Storage for numbers
+	unsigned int _N;
+	std::vector<int> _numbers;
 
 public:
-    // Constructor: takes the maximum capacity.
-    Span(unsigned int n);
+	Span(unsigned int n);
+	Span(const Span &other);
+	Span &operator=(const Span &other);
+	~Span();
 
-    // Copy constructor and assignment operator.
-    Span(const Span &other);
-    Span &operator=(const Span &other);
+	void addNumber(int number);
 
-    // Destructor.
-    ~Span();
+	template <typename InputIterator>
+	void addNumbers(InputIterator begin, InputIterator end) {
+		for (InputIterator it = begin; it != end; ++it) {
+			if (_numbers.size() >= _N)
+				throw std::runtime_error("Span is full");
+			_numbers.push_back(*it);
+		}
+	}
 
-    // Adds a single number to the Span. Throws an exception if the Span is full.
-    void addNumber(int number);
-
-    // Templated function: adds numbers from a range of iterators.
-    template <typename InputIterator>
-    void addNumbers(InputIterator begin, InputIterator end) {
-        for (InputIterator it = begin; it != end; ++it) {
-            if (_numbers.size() >= _N)
-                throw std::runtime_error("Span is full");
-            _numbers.push_back(*it);
-        }
-    }
-
-    // Returns the shortest span between any two numbers.
-    // Throws an exception if there are fewer than 2 numbers.
-    int shortestSpan() const;
-
-    // Returns the longest span between any two numbers.
-    // Throws an exception if there are fewer than 2 numbers.
-    int longestSpan() const;
+	int shortestSpan() const;
+	int longestSpan() const;
 };
 
 #endif

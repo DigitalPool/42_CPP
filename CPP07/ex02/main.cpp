@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:51 by mac               #+#    #+#             */
-/*   Updated: 2025/03/05 22:05:01 by mac              ###   ########.fr       */
+/*   Updated: 2025/03/06 10:21:33 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int, char**)
 		numbers[i] = value;
 		mirror[i] = value;
 	}
-	//SCOPE
+
 	{
 		Array<int> tmp = numbers;
 		Array<int> test(tmp);
