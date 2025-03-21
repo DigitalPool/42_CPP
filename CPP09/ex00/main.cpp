@@ -6,47 +6,33 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:51 by mac               #+#    #+#             */
-/*   Updated: 2025/03/11 10:22:41 by mac              ###   ########.fr       */
+/*   Updated: 2025/03/17 08:21:53 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+#include <fstream>
 
-BitcoinExchange::BitcoinExchange(std::string dataFile) : _dataFile(dataFile) {
-
-}
-
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &other){
-	this->_dataFile = other._dataFile;
-	*this = other;
-}
-
-BitcoinExchange::~BitcoinExchange(){}
-
-BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other){
-	if (this != &other) {
-		this->_dataFile = other._dataFile;
+int main(int argc, char** argv) {
+	if (argc != 2) {
+		std::cerr << "Usage: ./btc input.txt" << std::endl;
+		return 1;
 	}
-	return *this;
-}
 
-void BitcoinExchange::readDataFile(){
-	std::ifstream datafile("data.csv");
-	if (!datafile.is_open())
-		throw(UnableToReadFile());
+	std::ifstream inputFile(argv[1]);
+	if (!inputFile.is_open()) {
+		std::cerr << "Error: could not open input file." << std::endl;
+		return 1;
+	}
+	inputFile.close();
 
-	std::string readLine;
-	while (getline(datafile, readLine))
-		std::cout << readLine << std::endl;
-	datafile.close();
-}
-
-int main(){
-	// if(argc != 2){
-	// 	std::cerr << "invalid arguments: ./btc input.txt" << std::endl;
-	// 	return -1;
-	// }
-	BitcoinExchange bitcoinExchange("data.txt");
-	bitcoinExchange.readDataFile();
+	try {
+		// data.csv is the database file provided with the exercise
+		BitcoinExchange bitcoinExchange("data.csv");
+		bitcoinExchange.compareDates(argv[1]);
+	} catch (const std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 	return 0;
 }

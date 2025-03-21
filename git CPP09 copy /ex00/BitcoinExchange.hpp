@@ -6,47 +6,44 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:33:13 by mac               #+#    #+#             */
-/*   Updated: 2025/03/17 08:37:00 by mac              ###   ########.fr       */
+/*   Updated: 2025/03/11 09:31:03 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
+#include <algorithm>
+#include <iterator>
+#include <exception>
+
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <map>
-#include <stdexcept>
 #include <string>
+#include <vector>
+#include <cctype>
 
-class BitcoinExchange {
-	private:
-		std::string _dataFile;
-		std::map<std::string, float> _dataMap;
-		std::map<std::string, float>::iterator _mapIt;
-		std::map<std::string, float>::iterator _lowerIt;
-		std::string trim(const std::string &str);
-		bool getExchangeRateForDate(const std::string &date, float &rate);
-		void handleHeader(std::ifstream &input);
-		void compareLine(const std::string &line);
+class Btc
+{
+private:
+	std::map <std::string, float> data;
+	int _openError;
+public:
+	Btc();
+	~Btc();
+	Btc& operator=(Btc const &var);
+	Btc(Btc const &var);
 
-	public:
-		BitcoinExchange(std::string dataFile);
-		BitcoinExchange(const BitcoinExchange &other);
-		~BitcoinExchange();
-		BitcoinExchange &operator=(const BitcoinExchange &other);
+	void setData(std::string date, float value);
 
-		// void readDataFile();
-		void loadDataToMap(std::string &dataFile);
-		void compareDates(const std::string &inputFile);
+	void readInput(std::string inputPath);
 
-		class UnableToReadFile : public std::exception {
-			public:
-				const char* what() const throw() {
-					return "unable to open data file";
-				}
-		};
+	std::map<std::string, float> getData();
+	std::vector<std::string> splitString(std::string str, char delimiter);
 };
 
 #endif
